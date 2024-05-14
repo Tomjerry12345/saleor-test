@@ -1,0 +1,9 @@
+fragment CategoryListItem on Category {
+	id
+	name
+	slug
+	backgroundImage(size: 1024, format: WEBP) {
+		url
+		alt
+	}
+}

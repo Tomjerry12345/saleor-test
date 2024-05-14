@@ -1,0 +1,64 @@
+timeout: 3600s
+steps:
+  # 0. Install dependencies
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+    dir: '/workspace'
+    id: 'Install Dependencies'
+
+  # 1. Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$SHORT_SHA'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$_IMAGE_ENV'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_SALEOR_API_URL=$_NEXT_PUBLIC_SALEOR_API_URL'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_STOREFRONT_URL=$_NEXT_PUBLIC_STOREFRONT_URL'
+      - '--build-arg'
+      - 'SALEOR_APP_TOKEN=$_SALEOR_APP_TOKEN'
+      - '-f'
+      - 'Dockerfile'
+      - '.'
+    id: 'Build'
+
+  # 2. Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$SHORT_SHA'
+    id: 'Push'
+
+  # 3. Deploy
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'beta',
+      'run',
+      'deploy',
+      '$_IMAGE_ENV-$_SERVICE_NAME',
+      '--port=3000',
+      '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$SHORT_SHA',
+      '--region=$_REGION',
+      '--platform=managed',
+      '--allow-unauthenticated',
+      '--verbosity=debug'
+    ]
+    id: 'Deploy'
+    entrypoint: gcloud
+
+  # 4. Push Tag
+  - id: Push image with env tag
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+        'push',
+        '${_GCR_HOSTNAME}/${PROJECT_ID}/${REPO_NAME}/${_SERVICE_NAME}:${_IMAGE_ENV}',
+    ]
+
+# Store images in Google Artifact Registry
+images:
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$SHORT_SHA'
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$_IMAGE_ENV'

@@ -1,0 +1,13 @@
+query CategoriesList($first: Int = 4) {
+	categories(
+		first: $first
+		filter: { metadata: [{ key: "type", value: "main" }] }
+		sortBy: { field: NAME, direction: DESC }
+	) {
+		edges {
+			node {
+				...CategoryListItem
+			}
+		}
+	}
+}
