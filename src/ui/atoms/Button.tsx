@@ -22,13 +22,15 @@ export const Button: FC<ButtonProps> = ({
 	...rest
 }) => {
 	const classes = clsx(
-		"inline-flex h-10 w-min items-center justify-center whitespace-nowrap rounded-3xl px-8  border-2 active:outline-none",
+		"inline-flex h-10  items-center justify-center whitespace-nowrap rounded-3xl px-8  border-2 active:outline-none",
 		{
-			"shadow-2xl border-neutral-600 bg-white text-neutral-600 hover:bg-neutral-600 hover:text-white disabled:bg-neutral-800 px-4 aria-disabled:cursor-not-allowed aria-disabled:opacity-70 hover:aria-disabled:bg-neutral-600 border-[1px] ":
+			"shadow-2xl border-neutral-600 bg-white text-neutral-600 hover:bg-neutral-600 hover:text-white disabled:bg-neutral-800 px-4 aria-disabled:cursor-not-allowed aria-disabled:opacity-70 hover:aria-disabled:bg-neutral-600 border-[1px]":
 				variant === "primary",
-			"border-neutral-600 bg-neutral-600 bg-transparent text-white hover:border-neutral-600 hover:bg-transparent hover:text-neutral-600 disabled:border-neutral-300 aria-disabled:border-neutral-300 disabled:bg-transparent aria-disabled:bg-transparent px-4":
+			// "border-neutral-600 bg-neutral-600 bg-transparent text-white hover:border-neutral-600 hover:bg-transparent hover:text-neutral-600 disabled:border-neutral-300 aria-disabled:border-neutral-300 disabled:bg-transparent aria-disabled:bg-transparent px-4":
+			// 	variant === "secondary",
+			"shadow-2xl border-neutral-600 bg-neutral-700 text-neutral-600 hover:bg-neutral-600 hover:text-white disabled:bg-neutral-800 px-4 aria-disabled:cursor-not-allowed aria-disabled:opacity-70 hover:aria-disabled:bg-neutral-600 border-[1px]":
 				variant === "secondary",
-			"border-white bg-white text-neutral-600 hover:border-neutral-200 hover:bg-neutral-200 px-4":
+			"border-white w-min bg-white text-neutral-600 hover:border-neutral-200 hover:bg-neutral-200 px-4":
 				variant === "tertiary",
 		},
 		className,

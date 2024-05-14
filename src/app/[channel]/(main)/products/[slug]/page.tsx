@@ -234,8 +234,8 @@ export default async function Page({
 							<Button
 								label="Beli langsung"
 								type="button"
-								variant="primary"
-								className="!bg-neutral-700 px-[1.2rem] text-sm  text-white md:px-8"
+								variant="secondary"
+								className="px-[1.2rem] text-sm  text-white md:px-8"
 							/>
 						</div>
 						<div className="mt-8 space-y-1 text-sm text-neutral-500">
@@ -249,8 +249,8 @@ export default async function Page({
 							<Button
 								label="Room Planner"
 								type="button"
-								variant="primary"
-								className="!bg-neutral-700 px-[1.2rem] text-sm  text-white md:px-8"
+								variant="secondary"
+								className="px-[1.2rem] text-sm  text-white md:px-8"
 							/>
 						</div>
 					</div>
